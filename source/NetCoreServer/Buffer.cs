@@ -235,9 +235,11 @@ namespace NetCoreServer
         /// <returns>Count of append bytes</returns>
         public long Append(ReadOnlySpan<char> text)
         {
-            int length = Encoding.UTF8.GetMaxByteCount(text.Length);
+            var encoding = Encoding.UTF8;
+            var length = encoding.GetMaxByteCount(text.Length);
             Reserve(_size + length);
-            long result = Encoding.UTF8.GetBytes(text, new Span<byte>(_data, (int)_size, length));
+            var data = new Span<byte>(_data, (int)_size, length);
+            var result = encoding.GetBytes(text.ToArray(), 0, text.Length, data.ToArray(), data.Length);
             _size += result;
             return result;
         }
