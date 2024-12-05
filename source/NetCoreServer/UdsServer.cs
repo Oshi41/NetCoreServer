@@ -19,7 +19,7 @@ public class UdsServer : IDisposable
     /// </summary>
     /// <param name="path">Socket path</param>
     /// <param name="port">Port</param>
-    public UdsServer(string path, int port) : this(new DnsEndPoint(path, port, AddressFamily.Unix)) {}
+    public UdsServer(string path) : this(new UnixEndPoint(path)) {}
     /// <summary>
     /// Initialize Unix Domain Socket server with a given Unix Domain Socket endpoint
     /// </summary>

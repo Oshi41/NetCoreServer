@@ -16,8 +16,7 @@ public class UdsClient : IDisposable
     /// Initialize Unix Domain Socket client with a given socket path
     /// </summary>
     /// <param name="path">Socket path</param>
-    /// <param name="port">Sicket port</param>
-    public UdsClient(string path, int port) : this(new DnsEndPoint(path, port, AddressFamily.Unix)) {}
+    public UdsClient(string path) : this(new UnixEndPoint(path)) {}
     /// <summary>
     /// Initialize Unix Domain Socket client with a given Unix Domain Socket endpoint
     /// </summary>
