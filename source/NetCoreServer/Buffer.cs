@@ -238,8 +238,7 @@ namespace NetCoreServer
             var encoding = Encoding.UTF8;
             var length = encoding.GetMaxByteCount(text.Length);
             Reserve(_size + length);
-            var data = new Span<byte>(_data, (int)_size, length);
-            var result = encoding.GetBytes(text.ToArray(), 0, text.Length, data.ToArray(), data.Length);
+            var result = encoding.GetBytes(text.ToArray(), 0, text.Length, _data, (int)_size);
             _size += result;
             return result;
         }
