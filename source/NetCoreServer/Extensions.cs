@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 
 namespace NetCoreServer;
@@ -13,6 +14,6 @@ public static class Extensions
 
     public static void SetupSocket(this Socket socket, int keepAliveTime, int keepAliveInterval, int keepAliveRetryCount)
     {
-        
+        // TODO implement for net standard 2.0
     }
 }
