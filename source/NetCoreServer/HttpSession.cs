@@ -23,7 +23,7 @@ public class HttpSession : TcpSession
     /// <summary>
     /// Get the HTTP request
     /// </summary>
-    protected HttpRequest Request { get; }
+    public HttpRequest Request { get; }
 
     /// <summary>
     /// Get the HTTP response
