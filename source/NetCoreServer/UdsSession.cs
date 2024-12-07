@@ -9,7 +9,7 @@ namespace NetCoreServer;
 /// Unix Domain Socket session is used to read and write data from the connected Unix Domain Socket client
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class UdsSession : IDisposable
+public class UdsSession : ISession
 {
     /// <summary>
     /// Initialize the session with a given server
@@ -32,6 +32,9 @@ public class UdsSession : IDisposable
     /// Server
     /// </summary>
     public UdsServer Server { get; }
+
+    public IServer GetServer() => Server;
+
     /// <summary>
     /// Socket
     /// </summary>

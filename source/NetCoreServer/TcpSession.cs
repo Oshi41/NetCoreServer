@@ -9,7 +9,7 @@ namespace NetCoreServer;
 /// TCP session is used to read and write data from the connected TCP client
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class TcpSession : IDisposable
+public class TcpSession : ISession
 {
     /// <summary>
     /// Initialize the session with a given server
@@ -32,6 +32,9 @@ public class TcpSession : IDisposable
     /// Server
     /// </summary>
     public TcpServer Server { get; }
+
+    public IServer GetServer() => Server;
+
     /// <summary>
     /// Socket
     /// </summary>

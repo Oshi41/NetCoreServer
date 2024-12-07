@@ -12,7 +12,7 @@ namespace NetCoreServer;
 /// SSL server is used to connect, disconnect and manage SSL sessions
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class SslServer : IDisposable
+public class SslServer : IServer
 {
     /// <summary>
     /// Initialize SSL server with a given IP address and port number

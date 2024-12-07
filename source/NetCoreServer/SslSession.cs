@@ -10,7 +10,7 @@ namespace NetCoreServer;
 /// SSL session is used to read and write data from the connected SSL client
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class SslSession : IDisposable
+public class SslSession : ISession
 {
     /// <summary>
     /// Initialize the session with a given server
@@ -33,6 +33,9 @@ public class SslSession : IDisposable
     /// Server
     /// </summary>
     public SslServer Server { get; }
+
+    public IServer GetServer() => Server;
+
     /// <summary>
     /// Socket
     /// </summary>

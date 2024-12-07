@@ -12,7 +12,7 @@ namespace NetCoreServer;
 /// TCP server is used to connect, disconnect and manage TCP sessions
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class TcpServer : IDisposable
+public class TcpServer : IServer
 {
     /// <summary>
     /// Initialize TCP server with a given IP address and port number

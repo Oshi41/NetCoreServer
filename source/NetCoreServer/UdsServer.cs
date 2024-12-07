@@ -12,7 +12,7 @@ namespace NetCoreServer;
 /// Unix Domain Socket server is used to connect, disconnect and manage Unix Domain Socket sessions
 /// </summary>
 /// <remarks>Thread-safe</remarks>
-public class UdsServer : IDisposable
+public class UdsServer : IServer
 {
     /// <summary>
     /// Initialize Unix Domain Socket server with a given socket path
