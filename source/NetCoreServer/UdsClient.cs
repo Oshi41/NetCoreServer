@@ -341,7 +341,7 @@ public class UdsClient : IDisposable
     private Buffer _receiveBuffer;
     private SocketAsyncEventArgs _receiveEventArg;
     // Send buffer
-    private readonly object _sendLock = new object();
+    private readonly object _sendLock = new();
     private bool _sending;
     private Buffer _sendBufferMain;
     private Buffer _sendBufferFlush;

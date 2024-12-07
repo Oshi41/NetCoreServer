@@ -289,7 +289,7 @@ public class UdsServer : IDisposable
     /// <summary>
     /// Server sessions
     /// </summary>
-    protected readonly ConcurrentDictionary<Guid, UdsSession> Sessions = new ConcurrentDictionary<Guid, UdsSession>();
+    protected readonly ConcurrentDictionary<Guid, UdsSession> Sessions = new();
 
     /// <summary>
     /// Disconnect all connected sessions

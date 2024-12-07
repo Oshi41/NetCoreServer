@@ -481,7 +481,7 @@ public class HttpRequest
     // HTTP request protocol
     private string _protocol;
     // HTTP request cookies
-    private List<(string, string)> _cookies = new List<(string, string)>();
+    private List<(string, string)> _cookies = new();
     // HTTP request body
     private int _bodyIndex;
     private int _bodySize;
@@ -489,7 +489,7 @@ public class HttpRequest
     private bool _bodyLengthProvided;
 
     // HTTP request cache
-    private Buffer _cache = new Buffer();
+    private Buffer _cache = new();
     private int _cacheSize;
 
     // Is pending parts of HTTP request

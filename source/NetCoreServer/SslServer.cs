@@ -392,7 +392,7 @@ public class SslServer : IDisposable
     /// <summary>
     /// Server sessions
     /// </summary>
-    protected readonly ConcurrentDictionary<Guid, SslSession> Sessions = new ConcurrentDictionary<Guid, SslSession>();
+    protected readonly ConcurrentDictionary<Guid, SslSession> Sessions = new();
 
     /// <summary>
     /// Disconnect all connected sessions

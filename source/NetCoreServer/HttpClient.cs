@@ -398,7 +398,7 @@ public class HttpClientEx : HttpClient
 
     #endregion
 
-    private TaskCompletionSource<HttpResponse> _tcs = new TaskCompletionSource<HttpResponse>();
+    private TaskCompletionSource<HttpResponse> _tcs = new();
     private Timer _timer;
 
     private void SetPromiseValue(HttpResponse response)

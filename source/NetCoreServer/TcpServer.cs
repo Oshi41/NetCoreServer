@@ -382,7 +382,7 @@ public class TcpServer : IDisposable
     /// <summary>
     /// Server sessions
     /// </summary>
-    protected readonly ConcurrentDictionary<Guid, TcpSession> Sessions = new ConcurrentDictionary<Guid, TcpSession>();
+    protected readonly ConcurrentDictionary<Guid, TcpSession> Sessions = new();
 
     /// <summary>
     /// Disconnect all connected sessions

@@ -36,7 +36,7 @@ public class FileCache : IDisposable
     /// <param name="value">Value to add</param>
     /// <param name="timeout">Cache timeout (default is 0 - no timeout)</param>
     /// <returns>'true' if the cache value was added, 'false' if the given key was not added</returns>
-    public bool Add(string key, byte[] value, TimeSpan timeout = new TimeSpan())
+    public bool Add(string key, byte[] value, TimeSpan timeout = new())
     {
         using (new WriteLock(_lockEx))
         {
@@ -93,7 +93,7 @@ public class FileCache : IDisposable
     /// <param name="timeout">Cache timeout (default is 0 - no timeout)</param>
     /// <param name="handler">Cache insert handler (default is 'return cache.Add(key, value, timeout)')</param>
     /// <returns>'true' if the cache path was setup, 'false' if failed to setup the cache path</returns>
-    public bool InsertPath(string path, string prefix = "/", string filter = "*.*", TimeSpan timeout = new TimeSpan(), InsertHandler handler = null)
+    public bool InsertPath(string path, string prefix = "/", string filter = "*.*", TimeSpan timeout = new(), InsertHandler handler = null)
     {
         handler ??= (FileCache cache, string key, byte[] value, TimeSpan timespan) => cache.Add(key, value, timespan);
 
@@ -161,10 +161,10 @@ public class FileCache : IDisposable
 
     #region Cache implementation
 
-    private readonly ReaderWriterLockSlim _lockEx = new ReaderWriterLockSlim();
-    private Dictionary<string, MemCacheEntry> _entriesByKey = new Dictionary<string, MemCacheEntry>();
-    private Dictionary<string, HashSet<string>> _entriesByPath = new Dictionary<string, HashSet<string>>();
-    private Dictionary<string, FileCacheEntry> _pathsByKey = new Dictionary<string, FileCacheEntry>();
+    private readonly ReaderWriterLockSlim _lockEx = new();
+    private Dictionary<string, MemCacheEntry> _entriesByKey = new();
+    private Dictionary<string, HashSet<string>> _entriesByPath = new();
+    private Dictionary<string, FileCacheEntry> _pathsByKey = new();
 
     private class MemCacheEntry
     {
@@ -174,13 +174,13 @@ public class FileCache : IDisposable
         public byte[] Value => _value;
         public TimeSpan Timespan => _timespan;
 
-        public MemCacheEntry(byte[] value, TimeSpan timespan = new TimeSpan())
+        public MemCacheEntry(byte[] value, TimeSpan timespan = new())
         {
             _value = value;
             _timespan = timespan;
         }
 
-        public MemCacheEntry(string value, TimeSpan timespan = new TimeSpan())
+        public MemCacheEntry(string value, TimeSpan timespan = new())
         {
             _value = Encoding.UTF8.GetBytes(value);
             _timespan = timespan;

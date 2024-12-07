@@ -492,7 +492,7 @@ public class SslClient : IDisposable
     private bool _receiving;
     private Buffer _receiveBuffer;
     // Send buffer
-    private readonly object _sendLock = new object();
+    private readonly object _sendLock = new();
     private bool _sending;
     private Buffer _sendBufferMain;
     private Buffer _sendBufferFlush;

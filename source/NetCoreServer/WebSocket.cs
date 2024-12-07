@@ -636,17 +636,17 @@ public class WebSocket : IWebSocket
     /// <summary>
     /// Receive buffer lock
     /// </summary>
-    internal readonly object WsReceiveLock = new object();
+    internal readonly object WsReceiveLock = new();
 
     /// <summary>
     /// Receive frame buffer
     /// </summary>
-    internal readonly Buffer WsReceiveFrameBuffer = new Buffer();
+    internal readonly Buffer WsReceiveFrameBuffer = new();
 
     /// <summary>
     /// Receive final buffer
     /// </summary>
-    internal readonly Buffer WsReceiveFinalBuffer = new Buffer();
+    internal readonly Buffer WsReceiveFinalBuffer = new();
 
     /// <summary>
     /// Receive mask
@@ -656,12 +656,12 @@ public class WebSocket : IWebSocket
     /// <summary>
     /// Send buffer lock
     /// </summary>
-    internal readonly object WsSendLock = new object();
+    internal readonly object WsSendLock = new();
 
     /// <summary>
     /// Send buffer
     /// </summary>
-    internal readonly Buffer WsSendBuffer = new Buffer();
+    internal readonly Buffer WsSendBuffer = new();
 
     /// <summary>
     /// Send mask
@@ -671,7 +671,7 @@ public class WebSocket : IWebSocket
     /// <summary>
     /// WebSocket random generator
     /// </summary>
-    internal readonly Random WsRandom = new Random();
+    internal readonly Random WsRandom = new();
 
     /// <summary>
     /// WebSocket random nonce of 16 bytes
