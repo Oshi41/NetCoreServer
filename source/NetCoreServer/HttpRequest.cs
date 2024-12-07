@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 
 namespace NetCoreServer;
@@ -61,21 +62,9 @@ public class HttpRequest
     public NameValueCollection Headers { get; } = new();
     
     /// <summary>
-    /// Get the HTTP request cookies count
+    /// HTTP cookies collection
     /// </summary>
-    public long Cookies => _cookies.Count;
-
-    /// <summary>
-    /// Get the HTTP request cookie by index
-    /// </summary>
-    public (string, string) Cookie(int i)
-    {
-        Debug.Assert((i < _cookies.Count), "Index out of bounds!");
-        if (i >= _cookies.Count)
-            return ("", "");
-
-        return _cookies[i];
-    }
+    public CookieCollection Cookies { get; private set; } = new();
     /// <summary>
     /// Get the HTTP request body as string
     /// </summary>
@@ -130,7 +119,7 @@ public class HttpRequest
         _url = "";
         _protocol = "";
         Headers.Clear();
-        _cookies.Clear();
+        Cookies = new();
         _bodyIndex = 0;
         _bodySize = 0;
         _bodyLength = 0;
@@ -217,7 +206,7 @@ public class HttpRequest
         // Add the header to the corresponding collection
         Headers.Add(key, cookie);
         // Add the cookie to the corresponding collection
-        _cookies.Add((name, value));
+        Cookies.Add(new Cookie(name, value));
         return this;
     }
 
@@ -235,7 +224,7 @@ public class HttpRequest
         _cache.Append(value);
 
         // Add the cookie to the corresponding collection
-        _cookies.Add((name, value));
+        Cookies.Add(new Cookie(name, value));
         return this;
     }
 
@@ -480,8 +469,6 @@ public class HttpRequest
     private string _url;
     // HTTP request protocol
     private string _protocol;
-    // HTTP request cookies
-    private List<(string, string)> _cookies = new();
     // HTTP request body
     private int _bodyIndex;
     private int _bodySize;
@@ -489,7 +476,7 @@ public class HttpRequest
     private bool _bodyLengthProvided;
 
     // HTTP request cache
-    private Buffer _cache = new();
+    private readonly Buffer _cache = new();
     private int _cacheSize;
 
     // Is pending parts of HTTP request
@@ -711,7 +698,7 @@ public class HttpRequest
                                     if ((nameSize > 0) && (cookieSize > 0))
                                     {
                                         // Add the cookie to the corresponding collection
-                                        _cookies.Add((_cache.ExtractString(nameIndex, nameSize), _cache.ExtractString(cookieIndex, cookieSize)));
+                                        Cookies.Add(new Cookie(_cache.ExtractString(nameIndex, nameSize), _cache.ExtractString(cookieIndex, cookieSize)));
 
                                         // Resset the current cookie values
                                         nameIndex = j;
@@ -749,7 +736,7 @@ public class HttpRequest
                             if ((nameSize > 0) && (cookieSize > 0))
                             {
                                 // Add the cookie to the corresponding collection
-                                _cookies.Add((_cache.ExtractString(nameIndex, nameSize), _cache.ExtractString(cookieIndex, cookieSize)));
+                                Cookies.Add(new Cookie(_cache.ExtractString(nameIndex, nameSize), _cache.ExtractString(cookieIndex, cookieSize)));
                             }
                         }
                     }

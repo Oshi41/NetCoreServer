@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Text;
 
@@ -138,21 +139,10 @@ public class HttpResponse
     public string Protocol => _protocol;
 
     /// <summary>
-    /// Get the HTTP response headers count
+    /// Http Response Headers
     /// </summary>
-    public long Headers => _headers.Count;
-
-    /// <summary>
-    /// Get the HTTP response header by index
-    /// </summary>
-    public (string, string) Header(int i)
-    {
-        Debug.Assert((i < _headers.Count), "Index out of bounds!");
-        if (i >= _headers.Count)
-            return ("", "");
-
-        return _headers[i];
-    }
+    public NameValueCollection Headers { get; } = new();
+    
     /// <summary>
     /// Get the HTTP response body as string
     /// </summary>
@@ -188,10 +178,10 @@ public class HttpResponse
         sb.AppendLine($"Status phrase: {StatusPhrase}");
         sb.AppendLine($"Protocol: {Protocol}");
         sb.AppendLine($"Headers: {Headers}");
-        for (var i = 0; i < Headers; i++)
+        foreach (var key in Headers.AllKeys)
         {
-            var header = Header(i);
-            sb.AppendLine($"{header.Item1} : {header.Item2}");
+            sb.AppendLine($"{key} : {Headers[key]}");
+            
         }
         sb.AppendLine($"Body: {BodyLength}");
         sb.AppendLine(Body);
@@ -207,7 +197,7 @@ public class HttpResponse
         Status = 0;
         _statusPhrase = "";
         _protocol = "";
-        _headers.Clear();
+        Headers.Clear();
         _bodyIndex = 0;
         _bodySize = 0;
         _bodyLength = 0;
@@ -370,7 +360,7 @@ public class HttpResponse
         _cache.Append("\r\n");
 
         // Add the header to the corresponding collection
-        _headers.Add((key, value));
+        Headers.Add(key, value);
         return this;
     }
 
@@ -427,7 +417,7 @@ public class HttpResponse
         _cache.Append("\r\n");
 
         // Add the header to the corresponding collection
-        _headers.Add((key, cookie));
+        Headers.Add(key, cookie);
         return this;
     }
 
@@ -664,8 +654,6 @@ public class HttpResponse
     private string _statusPhrase;
     // HTTP response protocol
     private string _protocol;
-    // HTTP response headers
-    private List<(string, string)> _headers = new();
     // HTTP response body
     private int _bodyIndex;
     private int _bodySize;
@@ -673,7 +661,7 @@ public class HttpResponse
     private bool _bodyLengthProvided;
 
     // HTTP response cache
-    private Buffer _cache = new();
+    private readonly Buffer _cache = new();
     private int _cacheSize;
 
     // HTTP response mime table
@@ -822,7 +810,7 @@ public class HttpResponse
                     // Add a new header
                     var headerName = _cache.ExtractString(headerNameIndex, headerNameSize);
                     var headerValue = _cache.ExtractString(headerValueIndex, headerValueSize);
-                    _headers.Add((headerName, headerValue));
+                    Headers.Add(headerName, headerValue);
 
                     // Try to find the body content length
                     if (string.Compare(headerName, "Content-Length", StringComparison.OrdinalIgnoreCase) == 0)

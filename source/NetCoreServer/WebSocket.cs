@@ -73,11 +73,9 @@ public class WebSocket : IWebSocket
         var upgrade = false;
 
         // Validate WebSocket handshake headers
-        for (var i = 0; i < response.Headers; i++)
+        foreach (var key in response.Headers.AllKeys)
         {
-            var header = response.Header(i);
-            var key = header.Item1;
-            var value = header.Item2;
+            var value = response.Headers[key];
 
             if (string.Compare(key, "Connection", StringComparison.OrdinalIgnoreCase) == 0)
             {
