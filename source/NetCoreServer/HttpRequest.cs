@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace NetCoreServer;
@@ -59,19 +58,8 @@ public class HttpRequest
     /// <summary>
     /// Get the HTTP request headers count
     /// </summary>
-    public long Headers => _headers.Count;
-
-    /// <summary>
-    /// Get the HTTP request header by index
-    /// </summary>
-    public (string, string) Header(int i)
-    {
-        Debug.Assert((i < _headers.Count), "Index out of bounds!");
-        if (i >= _headers.Count)
-            return ("", "");
-
-        return _headers[i];
-    }
+    public NameValueCollection Headers { get; } = new();
+    
     /// <summary>
     /// Get the HTTP request cookies count
     /// </summary>
@@ -123,10 +111,9 @@ public class HttpRequest
         sb.AppendLine($"Request URL: {Url}");
         sb.AppendLine($"Request protocol: {Protocol}");
         sb.AppendLine($"Request headers: {Headers}");
-        for (var i = 0; i < Headers; i++)
+        foreach (var key in Headers.AllKeys)
         {
-            var header = Header(i);
-            sb.AppendLine($"{header.Item1} : {header.Item2}");
+            sb.AppendLine($"{key} : {Headers[key]}");
         }
         sb.AppendLine($"Request body: {BodyLength}");
         sb.AppendLine(Body);
@@ -142,7 +129,7 @@ public class HttpRequest
         _method = "";
         _url = "";
         _protocol = "";
-        _headers.Clear();
+        Headers.Clear();
         _cookies.Clear();
         _bodyIndex = 0;
         _bodySize = 0;
@@ -203,7 +190,7 @@ public class HttpRequest
         _cache.Append("\r\n");
 
         // Add the header to the corresponding collection
-        _headers.Add((key, value));
+        Headers.Add(key, value);
         return this;
     }
 
@@ -228,7 +215,7 @@ public class HttpRequest
         _cache.Append("\r\n");
 
         // Add the header to the corresponding collection
-        _headers.Add((key, cookie));
+        Headers.Add(key, cookie);
         // Add the cookie to the corresponding collection
         _cookies.Add((name, value));
         return this;
@@ -493,8 +480,6 @@ public class HttpRequest
     private string _url;
     // HTTP request protocol
     private string _protocol;
-    // HTTP request headers
-    private List<(string, string)> _headers = new List<(string, string)>();
     // HTTP request cookies
     private List<(string, string)> _cookies = new List<(string, string)>();
     // HTTP request body
@@ -642,7 +627,7 @@ public class HttpRequest
                     // Add a new header
                     var headerName = _cache.ExtractString(headerNameIndex, headerNameSize);
                     var headerValue = _cache.ExtractString(headerValueIndex, headerValueSize);
-                    _headers.Add((headerName, headerValue));
+                    Headers.Add(headerName, headerValue);
 
                     // Try to find the body content length
                     if (string.Compare(headerName, "Content-Length", StringComparison.OrdinalIgnoreCase) == 0)

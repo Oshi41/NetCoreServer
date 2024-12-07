@@ -165,11 +165,9 @@ public class WebSocket : IWebSocket
         var accept = "";
 
         // Validate WebSocket handshake headers
-        for (var i = 0; i < request.Headers; i++)
+        foreach (var key in request.Headers.AllKeys)
         {
-            var header = request.Header(i);
-            var key = header.Item1;
-            var value = header.Item2;
+            var value = request.Headers[key];
 
             if (string.Compare(key, "Connection", StringComparison.OrdinalIgnoreCase) == 0)
             {
