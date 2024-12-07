@@ -6,7 +6,7 @@ namespace NetCoreServer;
 /// HTTPS session is used to receive/send HTTP requests/responses from the connected HTTPS client.
 /// </summary>
 /// <remarks>Thread-safe.</remarks>
-public class HttpsSession : SslSession
+public class HttpsSession : SslSession, IHttpSession
 {
     public HttpsSession(HttpsServer server) : base(server)
     {
