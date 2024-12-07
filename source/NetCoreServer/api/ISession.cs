@@ -13,7 +13,7 @@ public interface ISession : IDisposable
     /// <summary>
     /// Server
     /// </summary>
-    IServer GetServer();  
+    IServer GetServer();
 
     /// <summary>
     /// Socket
@@ -21,14 +21,24 @@ public interface ISession : IDisposable
     Socket Socket { get; }
 
     /// <summary>
+    /// Number of bytes pending sent by the session
+    /// </summary>
+    public long BytesPending { get; }
+
+    /// <summary>
+    /// Number of bytes sending by the session
+    /// </summary>
+    public long BytesSending { get; }
+
+    /// <summary>
     /// Number of bytes sent by the session
     /// </summary>
-    long BytesSent { get; }
+    public long BytesSent { get; }
 
     /// <summary>
     /// Number of bytes received by the session
     /// </summary>
-    long BytesReceived { get; }
+    public long BytesReceived { get; }
 
     /// <summary>
     /// Is the session connected?
