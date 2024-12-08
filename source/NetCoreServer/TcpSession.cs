@@ -338,16 +338,16 @@ public class TcpSession : ISession
 
             // Update statistic
             BytesPending = _sendBufferMain.Size;
-
-            // Avoid multiple send handlers
-            if (_sending)
-                return true;
-            else
-                _sending = true;
-
-            // Try to send the main buffer
-            TrySend();
         }
+        
+        // Avoid multiple send handlers
+        if (_sending)
+            return true;
+            
+        _sending = true;
+        
+        // Try to send the main buffer
+        TrySend();
 
         return true;
     }
